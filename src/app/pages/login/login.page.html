@@ -1,0 +1,133 @@
+<ion-content>
+  <ion-slides mode="ios" pager="ios" scrollbar="ios">
+    <!--Logar-->
+    <ion-slide>
+      <div class="bg-login">
+        <div class="overlay">
+          <div class="login">
+            <div class="center">
+              <img src="../../../assets/img/logo-white.png" alt="Logo Scap" class="logo">
+            </div>
+            <div class="formulario">
+              <form [formGroup]="fGroup">
+                <ion-item color="transparent">
+                  <ion-label>
+                    <ion-icon name="mail"></ion-icon>
+                  </ion-label>
+                  <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+                </ion-item>
+                <ion-item color="transparent">
+                  <ion-label>
+                    <ion-icon name="lock"></ion-icon>
+                  </ion-label>
+                  <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
+                </ion-item>
+              </form>
+              <button (click)="entrar()">
+                ENTRAR
+              </button>
+              <div class="texto">
+                Ainda não tem uma Conta?<span (click)="segmentChanged(1)"> Cadastre-se</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+    <!--Registrar-->
+    <ion-slide>
+      <div class="bg-login">
+        <div class="overlay">
+          <div class="back">
+            <ion-icon ios="ios-arrow-back" md="ios-arrow-back" (click)="segmentChanged(2)"></ion-icon>
+          </div>
+          <div class="login">
+            <div class="formulario">
+              <form [formGroup]="fGroup">
+                <ion-item color="transparent">
+                  <ion-label>
+                    <ion-icon name="person"></ion-icon>
+                  </ion-label>
+                  <ion-input type="text" placeholder="Usuário" formControlName="user"></ion-input>                 
+                    <span *ngIf="fGroup.controls.user.errors" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="templateUser" style="color:white;">
+                      <ion-icon mode="md" name="alert"></ion-icon>
+                    </span>                
+                </ion-item>
+                <ion-item color="transparent">
+                  <ion-label>
+                    <ion-icon name="mail"></ion-icon>
+                  </ion-label>
+                  <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>                 
+                    <span *ngIf="fGroup.controls.email.errors" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="templateEmail" style="color:white;">
+                      <ion-icon mode="md" name="alert"></ion-icon>
+                    </span>                  
+                </ion-item>
+                <ion-item color="transparent">
+                  <ion-label>
+                    <ion-icon name="lock"></ion-icon>
+                  </ion-label>
+                  <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
+                  <span *ngIf="fGroup.controls.password.errors" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="templatePass" style="color:white;">
+                    <ion-icon mode="md" name="alert"></ion-icon>
+                  </span>
+                </ion-item>
+                <!--Radio Button-->
+                <div class="checkin">
+                  <ion-radio-group>
+                    <ion-label>Advogado</ion-label>
+                    <ion-radio name="tipo" mode="md" slot="end" (click)="mostrar(1)"></ion-radio>
+                    <ion-label>Comum</ion-label>
+                    <ion-radio name="tipo" mode="md" slot="end" checked (click)="mostrar(2)" ></ion-radio>
+                 </ion-radio-group>
+                </div>
+                <!--Numero OAB-->
+                <ion-item color="transparent" *ngIf="oab">
+                  <ion-label>
+                    <ion-icon name="ios-card"></ion-icon>
+                  </ion-label>
+                  <ion-input type="email" placeholder="Numero OAB" formControlName="numeroOAB"></ion-input>                
+                    <span  *ngIf="fGroup.controls.numeroOAB.errors" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="templateOAB" style="color:white;">
+                      <ion-icon mode="md" name="alert"></ion-icon>
+                    </span> 
+                </ion-item>
+              </form>
+              <button (click)="cadastrar()" [disabled]="!fGroup.valid">
+                CADASTRAR
+              </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<!--TEMPLATES POPOVERS-->
+<ng-template #templateUser>
+  <div>
+    <p> - Campo Obrigatório</p>
+    <p> - Minimo 3 caracteres</p>
+  </div>
+</ng-template>
+
+<ng-template #templateEmail>
+  <div>
+    <p> - Campo Obrigatório</p>
+    <p> - Email válido</p>
+  </div>
+</ng-template>
+
+<ng-template #templatePass>
+  <div>
+    <p> - Campo Obrigatório</p>
+    <p> - Minimo 8 caracteres</p>
+  </div>
+</ng-template>
+
+<ng-template #templateOAB>
+  <div>
+    <p> - Campo Obrigatório</p>
+    <p> - OAB válida</p>
+  </div>
+</ng-template>

@@ -1,0 +1,67 @@
+<ion-menu side="start" menuId="custom" class="my-custom-menu" contentId="main">
+  <div class="bg-menu">
+    <div class="overlay">
+      <!--Header menu-->
+      <ion-title>MENU</ion-title>
+      <!--Avatar-->
+
+      <!--footer menu-->
+      <footer>
+        <ion-footer>
+          <ion-icon name="notifications"></ion-icon>
+          <ion-icon mode="ios" name="settings"></ion-icon>
+          <ion-icon mode="ios" name="power" (click)="logout()"></ion-icon>
+        </ion-footer>
+      </footer>
+    </div>
+  </div>
+</ion-menu>
+
+
+
+<ion-content id="main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-icon name="menu" (click)="openCustom()"></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+  <p *ngIf="tipoo()"> olá Advogado</p>
+  <p *ngIf="tipoo() == false"> olá Comum</p>
+  <ion-list *ngIf="!processos.length">
+    <ion-item *ngFor="let item of [0, 1, 2]">
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated width="50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated width="80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated width="30%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let processo of processos">
+        <ion-item button [routerLink]="['/details', processo.id]">
+          <ion-label>
+           {{processo.assunto}}
+            <p>{{processo.tribunal}}</p>
+            <p>{{processo.createdAt | date: 'short'}}</p>
+          </ion-label>
+          <ion-note color="danger" slot="end" *ngIf="processo.situacao">{{ processo.situacao}}</ion-note>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteProcesso(processo.id)">
+            <ion-icon slot="end" name="trash"></ion-icon>
+              Excluir
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <ion-fab-button routerLink="/details">
+      +
+    </ion-fab-button>
+  </ion-content>
