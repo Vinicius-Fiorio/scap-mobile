@@ -11,19 +11,28 @@
   <ion-content class="ion-padding">
     <ion-list>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="processo.codeProcesso" placeholder="Codigo compartilhamento"></ion-input>
+        <ion-label position="floating">Codigo Compartilhamento</ion-label>
+        <ion-input type="text" [(ngModel)]="processo.codeProcesso"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="processo.tribunal" placeholder="Tribnal"></ion-input>
+        <ion-label position="floating">Tribunal</ion-label>
+        <ion-input type="text" [(ngModel)]="processo.tribunal"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="processo.assunto" placeholder="Assunto"></ion-input>
+        <ion-label position="floating">Assunto</ion-label> 
+        <ion-input type="text" [(ngModel)]="processo.assunto"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="processo.descricao" placeholder="Descrição"></ion-input>
+        <ion-label position="floating">Descrição</ion-label>
+        <ion-input type="text" [(ngModel)]="processo.descricao"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" [(ngModel)]="processo.situacao" placeholder="Situação"></ion-input>
+          <ion-label position="floating">Situação</ion-label>
+          <ion-select [(ngModel)]="processo.situacao">
+            <ion-select-option value="Concluido">Concluido</ion-select-option>
+            <ion-select-option value="Andamento">Andamento</ion-select-option>
+            <ion-select-option value="Pausado">Pausado</ion-select-option>
+          </ion-select>
       </ion-item>
     </ion-list>
   </ion-content>

@@ -22,11 +22,14 @@ export class HomePage implements OnInit{
 
   private loading: any
   public processos = new Array<Processos>()
+  public processosBuscados = new Array<Processos>()
   private processosSubscription: Subscription
   public usuario: Usuario
   public usuarioSubscription: Subscription
   public usuarioId: any
   public tipo: string
+  public codigo: string
+  public resposta: number
 
 
   public user: Observable<any[]>;
@@ -45,32 +48,29 @@ export class HomePage implements OnInit{
       this.processos = data
       console.log(this.processos)
     });
-    
-  }
 
-
-  ngOnInit(){  
     //AQUI Q A MÁGICA ACONTECE 
     this.usuarioId = this.authService.getAuth().currentUser.uid;
     this.usuarioSubscription = this.usuarioService.getUser(this.usuarioId).subscribe(data =>{
       this.usuario = data;
       this.tipo = this.usuario.tipo
-      console.log(this.tipo, this.usuario.email);
+      console.log(this.tipo, this.usuarioId);
     });
-    this.tipoo();
+  }
+
+   buscarProcesso(){
+    this.processosSubscription = this.processosService.getProcessos().subscribe(data =>{
+      this.processosBuscados = data
+    });
+  }
+
+  ngOnInit(){  
+    
   }
 
   
   ngOnDestroy(){
     this.processosSubscription.unsubscribe()
-  }
-
-  tipoo(){
-    if(this.tipo == 'Advogado'){
-      return true
-    }else{
-      return false
-    }
   }
 
   async deleteProcesso(id: string){

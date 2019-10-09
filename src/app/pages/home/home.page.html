@@ -25,8 +25,7 @@
       <ion-icon name="menu" (click)="openCustom()"></ion-icon>
     </ion-toolbar>
   </ion-header>
-  <p *ngIf="tipoo()"> olá Advogado</p>
-  <p *ngIf="tipoo() == false"> olá Comum</p>
+
   <ion-list *ngIf="!processos.length">
     <ion-item *ngFor="let item of [0, 1, 2]">
       <ion-label>
@@ -43,15 +42,15 @@
     </ion-item>
   </ion-list>
 
-    <ion-list>
-      <ion-item-sliding *ngFor="let processo of processos">
-        <ion-item button [routerLink]="['/details', processo.id]">
+    <ion-list *ngIf="tipo == 'Advogado'">
+      <ion-item-sliding *ngFor="let processo of processos" >
+        <ion-item *ngIf="processo.userId == usuarioId" button [routerLink]="['/details', processo.id]">
           <ion-label>
-           {{processo.assunto}}
-            <p>{{processo.tribunal}}</p>
-            <p>{{processo.createdAt | date: 'short'}}</p>
+           {{ processo.assunto }}
+            <p>{{ processo.tribunal }}</p>
+            <p>{{ processo.createdAt | date: 'short' }}</p>
           </ion-label>
-          <ion-note color="danger" slot="end" *ngIf="processo.situacao">{{ processo.situacao}}</ion-note>
+          <ion-note color="danger" slot="end">{{ processo.situacao }}</ion-note>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteProcesso(processo.id)">
@@ -61,7 +60,33 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    <ion-fab-button routerLink="/details">
+
+    <div *ngIf="tipo == 'Comum'">
+        <ion-list>
+            <ion-item-sliding *ngFor="let processo of processosBuscados" >
+              <ion-item *ngIf="processo.codeProcesso == codigo " button [routerLink]="['/details', processo.id]">
+                <ion-label>
+                 {{ processo.assunto }}
+                  <p>{{ processo.tribunal }}</p>
+                  <p>{{ processo.createdAt | date: 'short' }}</p>
+                </ion-label>
+                <ion-note color="danger" slot="end">{{ processo.situacao }}</ion-note>
+              </ion-item>
+            </ion-item-sliding>
+        </ion-list>
+
+      <form>
+        <ion-item>
+          <ion-label position="stacked">Codigo:</ion-label>
+          <ion-input name="codigo" [(ngModel)]="codigo"></ion-input>
+        </ion-item>
+        <div class="ion-padding">
+            <ion-button (click)="buscarProcesso()" expand="block" type="submit" class="ion-no-margin" color="danger">Adicionar Processo</ion-button>
+          </div>
+      </form>
+    </div>
+
+    <ion-fab-button *ngIf="tipo == 'Advogado'" routerLink="/details">
       +
     </ion-fab-button>
   </ion-content>
