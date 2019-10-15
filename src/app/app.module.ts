@@ -19,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+//local storage
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestor
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,

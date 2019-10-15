@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProcessosService } from 'src/app/services/processos.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Usuario } from 'src/app/interfaces/usuario';
 
 @Component({
   selector: 'app-details',
@@ -18,17 +20,29 @@ export class DetailsPage implements OnInit {
   private processoId: string = null
   private processoSubscription: Subscription 
 
+  private usuarioSubscription: Subscription 
+  public usuario: Usuario
+  public tipo: string
+
   constructor(
     private loadingCtrl:LoadingController,
     private toastCtrl: ToastController,
     private authService: AuthService,
     private activeRoute: ActivatedRoute,
     private processoService: ProcessosService,
-    private NavCtrl: NavController
+    private NavCtrl: NavController,
+    private usuarioService: UsuarioService,
+    
   ) {
     this.processoId = this.activeRoute.snapshot.params['id']
 
     if(this.processoId) this.loadProcesso()
+    //q
+
+    this.usuarioSubscription = this.usuarioService.getUser(this.authService.getAuth().currentUser.uid).subscribe(data =>{
+      this.usuario = data;
+      this.tipo = this.usuario.tipo
+    });
   }
 
   ngOnInit() {

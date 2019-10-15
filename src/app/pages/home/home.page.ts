@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { Processos } from 'src/app/interfaces/processos';
@@ -6,11 +6,6 @@ import { Subscription, Observable } from 'rxjs';
 import { ProcessosService } from 'src/app/services/processos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from "../../interfaces/usuario";
-import { map } from 'rxjs/operators';
-
-
-
-
 
 
 @Component({
@@ -23,6 +18,8 @@ export class HomePage implements OnInit{
   private loading: any
   public processos = new Array<Processos>()
   public processosBuscados = new Array<Processos>()
+  //LocalStorage
+  public processosBuscado = new Array<Processos>()
   private processosSubscription: Subscription
   public usuario: Usuario
   public usuarioSubscription: Subscription
@@ -30,10 +27,8 @@ export class HomePage implements OnInit{
   public tipo: string
   public codigo: string
   public resposta: number
-
-
-  public user: Observable<any[]>;
-
+  public user: Observable<any[]>
+  public processo: any = [];
 
   constructor(
     private loadingCtrl: LoadingController,
@@ -42,7 +37,7 @@ export class HomePage implements OnInit{
     private processosService: ProcessosService,
     private usuarioService: UsuarioService,
     private toastCtrl: ToastController,
-
+    private processoService: ProcessosService
   ) {
     this.processosSubscription = this.processosService.getProcessos().subscribe(data =>{
       this.processos = data
@@ -54,14 +49,14 @@ export class HomePage implements OnInit{
     this.usuarioSubscription = this.usuarioService.getUser(this.usuarioId).subscribe(data =>{
       this.usuario = data;
       this.tipo = this.usuario.tipo
-      console.log(this.tipo, this.usuarioId);
+      console.log(this.tipo, this.usuarioId, this.usuario.numeroOAB);
     });
-  }
 
-   buscarProcesso(){
-    this.processosSubscription = this.processosService.getProcessos().subscribe(data =>{
-      this.processosBuscados = data
-    });
+    //calma
+    if(this.tipo == 'Comum'){
+      this.loadtudo()
+    }
+    
   }
 
   ngOnInit(){  
@@ -71,6 +66,32 @@ export class HomePage implements OnInit{
   
   ngOnDestroy(){
     this.processosSubscription.unsubscribe()
+  }
+  
+  addProcesso(id: string){
+   try{
+    this.processosSubscription = this.processoService.getProcesso(id).subscribe(data =>{
+      this.processo = data
+      console.log(this.processo)
+      let tamanho = JSON.parse(window.localStorage.getItem('meus-processos'))
+      if(tamanho == null ){
+        window.localStorage.setItem('meus-processos', JSON.stringify(this.processo))
+        this.presentToast('Primeiro processo adicionado')
+      }else{
+        let existing = [JSON.parse(window.localStorage.getItem('meus-processos'))]
+        existing.push(this.processo)
+        window.localStorage.setItem('meus-processos', JSON.stringify(existing))
+        this.presentToast('Adicionado com sucesso')
+      }});
+      
+    }catch(error){
+      this.presentToast('Erro ao tentar Adicionar')
+    }
+  }
+
+  loadtudo(){
+    this.processosBuscado = JSON.parse(window.localStorage.getItem('meus-processos'))
+    console.log(this.processosBuscado) 
   }
 
   async deleteProcesso(id: string){

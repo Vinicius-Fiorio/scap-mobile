@@ -1,5 +1,7 @@
 {
   "name": "scap-mobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
