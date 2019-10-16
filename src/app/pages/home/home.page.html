@@ -82,14 +82,14 @@
           </ion-item-sliding>
         </div>
         
-          <ion-item-sliding *ngFor="let process of processosBuscado" >
-            <ion-item button [routerLink]="['/details', process.id]">
+          <ion-item-sliding *ngFor="let processo of processosBuscado" >
+            <ion-item button [routerLink]="['/details', processo.id]">
               <ion-label>
-                {{ process.assunto }}
-                <p>{{ process.tribunal }}</p>
-                <p>{{ process.createdAt | date: 'short' }}</p>
+                {{ processo.assunto }}
+                <p>{{ processo.tribunal }}</p>
+                <p>{{ processo.createdAt | date: 'short' }}</p>
               </ion-label>
-              <ion-note color="danger" slot="end">{{ process.situacao }}</ion-note>
+              <ion-note color="danger" slot="end">{{ processo.situacao }}</ion-note>
             </ion-item>
             <ion-item-options side="end">
               <ion-item-option color="danger">

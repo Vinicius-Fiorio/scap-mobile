@@ -72,6 +72,7 @@ export class HomePage implements OnInit{
    try{
     this.processosSubscription = this.processoService.getProcesso(id).subscribe(data =>{
       this.processo = data
+      this.processo.id = id
       console.log(this.processo)
       let tamanho = JSON.parse(window.localStorage.getItem('meus-processos'))
       if(tamanho == null ){
