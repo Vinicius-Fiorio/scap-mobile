@@ -75,6 +75,7 @@ export class DetailsPage implements OnInit {
       }
     }else{
       this.processo.createdAt = new Date().getTime();
+      this.processo.userOAB = this.usuario.numeroOAB
 
       try{
         await this.processoService.addProcesso(this.processo)

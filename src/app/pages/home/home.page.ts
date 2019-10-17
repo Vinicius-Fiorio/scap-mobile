@@ -20,6 +20,7 @@ export class HomePage implements OnInit{
   public processosBuscados = new Array<Processos>()
   //LocalStorage
   public processosBuscado = new Array<Processos>()
+  //
   private processosSubscription: Subscription
   public usuario: Usuario
   public usuarioSubscription: Subscription
@@ -51,11 +52,8 @@ export class HomePage implements OnInit{
       this.tipo = this.usuario.tipo
       console.log(this.tipo, this.usuarioId, this.usuario.numeroOAB);
     });
-
-    //calma
-    if(this.tipo == 'Comum'){
-      this.loadtudo()
-    }
+   
+    this.loadtudo()
     
   }
 
@@ -74,12 +72,17 @@ export class HomePage implements OnInit{
       this.processo = data
       this.processo.id = id
       console.log(this.processo)
-      let tamanho = JSON.parse(window.localStorage.getItem('meus-processos'))
+      const tamanho = JSON.parse(window.localStorage.getItem('meus-processos'))
       if(tamanho == null ){
         window.localStorage.setItem('meus-processos', JSON.stringify(this.processo))
         this.presentToast('Primeiro processo adicionado')
-      }else{
+      }else if(tamanho.length == undefined){
         let existing = [JSON.parse(window.localStorage.getItem('meus-processos'))]
+        existing.push(this.processo)
+        window.localStorage.setItem('meus-processos', JSON.stringify(existing))
+        this.presentToast('Adicionado com sucesso')
+      }else{
+        let existing = JSON.parse(window.localStorage.getItem('meus-processos'))
         existing.push(this.processo)
         window.localStorage.setItem('meus-processos', JSON.stringify(existing))
         this.presentToast('Adicionado com sucesso')

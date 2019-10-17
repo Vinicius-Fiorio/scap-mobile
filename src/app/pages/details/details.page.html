@@ -9,10 +9,10 @@
   </ion-header>
   
   <ion-content class="ion-padding">
-    <ion-list>
+    <ion-list *ngIf="tipo == 'Advogado'">
       <ion-item>
           <ion-label position="floating">OAB Responsável</ion-label>
-          <ion-input type="text" [(ngModel)]="processo.userOAB"></ion-input>
+          <ion-input type="text" [(ngModel)]="processo.userOAB" disabled="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Codigo Compartilhamento</ion-label>
@@ -39,12 +39,39 @@
           </ion-select>
       </ion-item>
     </ion-list>
+
+    <ion-list *ngIf="tipo == 'Comum'">
+      <ion-item>
+          <ion-label position="floating">OAB Responsável</ion-label>
+          <ion-input type="text" [(ngModel)]="processo.userOAB" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Tribunal</ion-label>
+        <ion-input type="text" [(ngModel)]="processo.tribunal" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Assunto</ion-label> 
+        <ion-input type="text" [(ngModel)]="processo.assunto" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descrição</ion-label>
+        <ion-input type="text" [(ngModel)]="processo.descricao" readonly="true"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Situação</ion-label>
+          <ion-select [(ngModel)]="processo.situacao" readonly="true">
+            <ion-select-option value="Concluido">Concluido</ion-select-option>
+            <ion-select-option value="Andamento">Andamento</ion-select-option>
+            <ion-select-option value="Pausado">Pausado</ion-select-option>
+          </ion-select>
+      </ion-item>
+    </ion-list>
   </ion-content>
   
   <ion-footer>
     <ion-toolbar *ngIf="tipo == 'Advogado'">
       <ion-button (click)="saveProcesso()" expand="block">
-        Salvar produto
+        Salvar processo
       </ion-button>
     </ion-toolbar>
   </ion-footer>
