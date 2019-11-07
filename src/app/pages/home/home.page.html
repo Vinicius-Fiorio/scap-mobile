@@ -58,6 +58,10 @@
             <ion-icon slot="end" name="trash"></ion-icon>
               Excluir
           </ion-item-option>
+          <ion-item-option color="primary">
+            <ion-icon slot="end" name="trash" (click)="compartilharProcesso(processo)"></ion-icon>
+            Compartilhar
+          </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
@@ -96,12 +100,13 @@
                 <ion-icon slot="end" name="trash"></ion-icon>
                   Remover
               </ion-item-option>
+              <ion-item-option color="primary-tint">
+                <ion-icon slot="end" name="trash" (click)="compartilharProcesso(processo)"></ion-icon>
+                  Compartilhar
+              </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
       </ion-list>
-      <ion-button *ngIf="tipo == 'Comum'" (click)="loadtudo()">
-        loadData
-      </ion-button>
     <ion-fab-button *ngIf="tipo == 'Advogado'" routerLink="/details">
       +
     </ion-fab-button>

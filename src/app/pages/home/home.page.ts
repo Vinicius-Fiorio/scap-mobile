@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , NgZone} from '@angular/core';
 import { LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { Processos } from 'src/app/interfaces/processos';
@@ -6,6 +6,7 @@ import { Subscription, Observable } from 'rxjs';
 import { ProcessosService } from 'src/app/services/processos.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from "../../interfaces/usuario";
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 @Component({
@@ -38,27 +39,38 @@ export class HomePage implements OnInit{
     private processosService: ProcessosService,
     private usuarioService: UsuarioService,
     private toastCtrl: ToastController,
-    private processoService: ProcessosService
+    private processoService: ProcessosService,
+    private socialSharing: SocialSharing,
+    private zone: NgZone
   ) {
     this.processosSubscription = this.processosService.getProcessos().subscribe(data =>{
-      this.processos = data
-      console.log(this.processos)
+      this.zone.run(() => {
+        this.processos = data
+      })
     });
 
     //AQUI Q A MÁGICA ACONTECE 
     this.usuarioId = this.authService.getAuth().currentUser.uid;
     this.usuarioSubscription = this.usuarioService.getUser(this.usuarioId).subscribe(data =>{
-      this.usuario = data;
-      this.tipo = this.usuario.tipo
-      console.log(this.tipo, this.usuarioId, this.usuario.numeroOAB);
+      this.zone.run(() => {
+        this.usuario = data;
+        this.tipo = this.usuario.tipo
+      })
     });
    
-    this.loadtudo()
+    
     
   }
 
   ngOnInit(){  
     
+  }
+  
+  compartilharProcesso(processo: Processos) {
+    this.socialSharing.share(`Veja detalhes desse processo:
+    *Assunto*: ${ processo.assunto }
+    *Tribunal*: ${ processo.tribunal }
+    *Situação*: ${ processo.situacao }`)
   }
 
   
@@ -81,11 +93,13 @@ export class HomePage implements OnInit{
         existing.push(this.processo)
         window.localStorage.setItem('meus-processos', JSON.stringify(existing))
         this.presentToast('Adicionado com sucesso')
+        this.loadtudo()
       }else{
         let existing = JSON.parse(window.localStorage.getItem('meus-processos'))
         existing.push(this.processo)
         window.localStorage.setItem('meus-processos', JSON.stringify(existing))
         this.presentToast('Adicionado com sucesso')
+        this.loadtudo()
       }});
       
     }catch(error){

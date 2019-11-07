@@ -21,7 +21,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 //local storage
 import { IonicStorageModule } from '@ionic/storage';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,10 +36,11 @@ import { IonicStorageModule } from '@ionic/storage';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     StatusBar,
+    SocialSharing,
     SplashScreen,
     AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
