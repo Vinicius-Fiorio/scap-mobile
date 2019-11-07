@@ -42,6 +42,10 @@ export class DetailsPage implements OnInit {
     this.usuarioSubscription = this.usuarioService.getUser(this.authService.getAuth().currentUser.uid).subscribe(data =>{
       this.usuario = data;
       this.tipo = this.usuario.tipo
+      if(!this.processoId) {
+        this.processo.codeProcesso = +Math.random().toLocaleString().substr(2, 18);
+        this.processo.userOAB = this.usuario.numeroOAB
+      }
     });
   }
 
@@ -76,6 +80,7 @@ export class DetailsPage implements OnInit {
     }else{
       this.processo.createdAt = new Date().getTime();
       this.processo.userOAB = this.usuario.numeroOAB
+      this.processo.codeProcesso = +Math.random().toLocaleString().substr(2, 18);
 
       try{
         await this.processoService.addProcesso(this.processo)
