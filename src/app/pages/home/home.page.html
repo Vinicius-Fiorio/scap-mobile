@@ -58,8 +58,8 @@
             <ion-icon slot="end" name="trash"></ion-icon>
               Excluir
           </ion-item-option>
-          <ion-item-option color="primary">
-            <ion-icon slot="end" name="trash" (click)="compartilharProcesso(processo)"></ion-icon>
+          <ion-item-option color="primary" (click)="compartilharProcesso(processo)">
+            <ion-icon slot="end" name="send"></ion-icon>
             Compartilhar
           </ion-item-option>
         </ion-item-options>
@@ -79,7 +79,7 @@
             </ion-item>
             <ion-item-options side="end">
               <ion-item-option color="primary" (click)="addProcesso(processo.id)">
-                <ion-icon slot="end" name="trash"></ion-icon>
+                <ion-icon slot="end" name="add"></ion-icon>
                   Adicionar
               </ion-item-option>
             </ion-item-options>
@@ -100,8 +100,8 @@
                 <ion-icon slot="end" name="trash"></ion-icon>
                   Remover
               </ion-item-option>
-              <ion-item-option color="primary-tint">
-                <ion-icon slot="end" name="trash" (click)="compartilharProcesso(processo)"></ion-icon>
+              <ion-item-option color="primary-tint" (click)="compartilharProcesso(processo)">
+                <ion-icon slot="end" name="send"></ion-icon>
                   Compartilhar
               </ion-item-option>
             </ion-item-options>

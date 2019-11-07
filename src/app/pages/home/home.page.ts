@@ -67,6 +67,8 @@ export class HomePage implements OnInit{
   }
   
   compartilharProcesso(processo: Processos) {
+
+    debugger
     this.socialSharing.share(`Veja detalhes desse processo:
     *Assunto*: ${ processo.assunto }
     *Tribunal*: ${ processo.tribunal }
