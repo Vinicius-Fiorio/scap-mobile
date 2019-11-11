@@ -29,6 +29,7 @@ export class HomePage implements OnInit{
   public tipo: string
   public codigo: string
   public resposta: number
+  public userTop: any
   public user: Observable<any[]>
   public processo: any = [];
 
@@ -55,15 +56,14 @@ export class HomePage implements OnInit{
       this.zone.run(() => {
         this.usuario = data;
         this.tipo = this.usuario.tipo
+        this.userTop = this.usuario.user
       })
     });
-   
-    
-    
+    this.loadtudo()
   }
 
   ngOnInit(){  
-    
+    this.loadtudo()
   }
   
   compartilharProcesso(processo: Processos) {
@@ -104,6 +104,8 @@ export class HomePage implements OnInit{
       
     }catch(error){
       this.presentToast('Erro ao tentar Adicionar')
+    } finally {
+      this.codigo = '';
     }
   }
 
@@ -119,6 +121,26 @@ export class HomePage implements OnInit{
       this.presentToast('Erro ao tentar excluir')
     }
   }
+
+  async deleteProcessoUser(id: string, index: number) {
+    try {
+      console.log(this.processo)
+      const tamanho = JSON.parse(window.localStorage.getItem('meus-processos'))
+      if (tamanho == null || tamanho.length == undefined) {
+        this.presentToast('Um Erro Ocoreeu tente mais tarde')
+      } else {
+        let existing = JSON.parse(window.localStorage.getItem('meus-processos'))
+        existing.splice(index, 1)
+        window.localStorage.setItem('meus-processos', JSON.stringify(existing))
+        this.presentToast('Proesso deletado com sucesso')
+      }
+    } catch (error) {
+      this.presentToast('Erro ao tentar excluir')
+    } finally {
+      this.loadtudo()
+    }
+  }
+
 
   //Tratamento do logout
   async logout(){
